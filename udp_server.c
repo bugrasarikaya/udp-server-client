@@ -11,7 +11,7 @@ int main(void) {
 	WSADATA wsa_data;
 	SOCKET socket_descriptor;
 	SOCKADDR_IN address_data, remote_address_data;
-	if (WSAStartup(MAKEWORD(2, 2), &wsa_data) != 0) { //Loads Winsock v1.1.
+	if (WSAStartup(MAKEWORD(2, 2), &wsa_data) != 0) { //Loads Winsock v2.2.
 		printf("ERROR: WSAStartup failed with error %d.\n", WSAGetLastError());
 		printf("Press anything to exit.");
 		_getch();
