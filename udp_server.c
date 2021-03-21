@@ -1,4 +1,4 @@
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
+#define _WINSOCK_DEPRECATED_NO_WARNINGS //This program developed in Visual Studio 2017.
 #pragma comment(lib, "Ws2_32.lib")
 #include <winsock2.h>
 #include <stdio.h>
@@ -20,13 +20,13 @@ int main(void) {
 	printf("Port: ");
 	scanf_s("%s", &s_port, sizeof s_port);
 	i_port = atoi(s_port);
-	if (i_port <= 0 || i_port > 65563) {
+	if (i_port < 0 || i_port > 65563) {
 		printf("ERROR: Invalid port number.\n");
 		printf("Press anything to exit.");
 		_getch();
 		exit(1);
 	}
-	address_data.sin_port = htons(i_port); //Host-byte ordering to network-byte ordering (least-significant-byte ordering to most-significant-byte ordering) in short type.
+	address_data.sin_port = htons(i_port); //Host-byte ordering to network-byte ordering (little-endian to big-endian) in short type.
 	address_data.sin_family = AF_INET;
 	address_data.sin_addr.s_addr = INADDR_ANY; //INADDR_ANY is for any IP address.
 	socket_descriptor = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP); //Creates an UDP socket.
@@ -53,9 +53,9 @@ int main(void) {
 	}
 	received_message[received_bytes_count] = '\0';
 	printf("\n%s: %s\n", inet_ntoa(remote_address_data.sin_addr), received_message);
-	closesocket(socket_descriptor);
-	WSACleanup();
 	printf("Press anything to exit.");
 	_getch();
+	closesocket(socket_descriptor);
+	WSACleanup();
 	return 0;
 }
