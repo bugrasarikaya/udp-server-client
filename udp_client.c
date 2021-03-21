@@ -1,4 +1,4 @@
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
+#define _WINSOCK_DEPRECATED_NO_WARNINGS //This program developed in Visual Studio 2017.
 #pragma comment(lib, "Ws2_32.lib")
 #include <winsock2.h>
 #include <stdio.h>
@@ -30,7 +30,7 @@ int main(void) {
 	scanf_s("%s", &s_port, sizeof s_port);
 	getchar(); //Removes newline from buffer.
 	i_port = atoi(s_port);
-	if (i_port <= 0 || i_port > 65563) {
+	if (i_port < 0 || i_port > 65563) {
 		printf("ERROR: Invalid port number.\n");
 		printf("Press anything to exit.");
 		_getch();
@@ -57,9 +57,9 @@ int main(void) {
 		exit(1);
 	}
 	printf("Message sent to %s.\n", s_ip);
-	closesocket(socket_descriptor);
-	WSACleanup();
 	printf("Press anything to exit.");
 	_getch();
+	closesocket(socket_descriptor);
+	WSACleanup();
 	return 0;
 }
